@@ -14,7 +14,7 @@ public class Main extends Application {
         HBox root = new HBox();
         root.setPadding(new Insets(10));
 
-        root.setPrefHeight(500);
+        root.setPrefHeight(600);
         root.setPrefWidth(1000);
 
 
