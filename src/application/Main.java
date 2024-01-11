@@ -14,8 +14,8 @@ public class Main extends Application {
         HBox root = new HBox();
         root.setPadding(new Insets(10));
 
-        root.setPrefHeight(400);
-        root.setPrefWidth(800);
+        root.setPrefHeight(500);
+        root.setPrefWidth(1000);
 
 
 
@@ -29,7 +29,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-//        System.out.println("Hello World, bro");
         launch(args);
     }
 }
