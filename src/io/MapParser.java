@@ -17,8 +17,8 @@ public class MapParser {
         setFilename(filename);
     }
 
-    public ArrayList<ArrayList<Integer>> read(){
-        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+    public List<List<Integer>> read(){
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
         File obj = new File(filename);
         try {
             Scanner reader = new Scanner(obj);

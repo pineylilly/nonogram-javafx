@@ -1,5 +1,6 @@
 package application;
 
+import gui.GamePane;
 import io.MapParser;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class Main{
-    /*
+public class Main extends Application{
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         HBox root = new HBox();
@@ -24,9 +25,13 @@ public class Main{
         root.setPrefHeight(600);
         root.setPrefWidth(1000);
 
-
-
+        GameSystem mygame = GameSystem.getInstance();
+        mygame.loadMap();
+        GamePane gamepane = new GamePane();
+        root.getChildren().add(gamepane);
+        System.out.println(mygame.getCurrent_path());
         Scene scene = new Scene(root);
+
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Nonogram");
@@ -39,8 +44,9 @@ public class Main{
 
 
     }
-    */
+
     public static void main(String[] args) {
+        /*
         GameSystem game = GameSystem.getInstance();
         game.loadMap();
         Scanner scanner = new Scanner(System.in);
@@ -65,6 +71,7 @@ public class Main{
             }
         }
         System.out.print("You win!");
-        //launch(args);
+        */
+        launch(args);
     }
 }
