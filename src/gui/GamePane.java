@@ -1,7 +1,6 @@
 package gui;
 
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import logic.GameSystem;
 import java.util.List;
 public class GamePane extends GridPane {
@@ -10,8 +9,24 @@ public class GamePane extends GridPane {
     private static final int GAME_SIZE = 620;
     private static final int RULE_SIZE = 4;
     private double pane_size;
-    public GamePane() {
+
+    private static GamePane instance;
+    private GamePane() {
         super();
+        this.setPrefWidth(GAME_SIZE);
+        this.setPrefHeight(GAME_SIZE);
+
+    }
+
+    public static GamePane getInstance() {
+        if (instance == null){
+            instance = new GamePane();
+        }
+        return instance;
+    }
+
+    public void newGame(){
+        this.getChildren().clear();
         this.setPrefWidth(GAME_SIZE);
         this.setPrefHeight(GAME_SIZE);
         setGrid_size(GameSystem.getInstance().getMap_size());
@@ -38,8 +53,10 @@ public class GamePane extends GridPane {
         }
     }
 
+
+
     private void initRulePane(){
-        List<List<Integer>> my_rule = GameSystem.getInstance().getCurrent_gamerule();
+        List<List<Integer>> my_rule = GameSystem.getInstance().getCurrent_rule();
         for (int j = RULE_SIZE; j < (RULE_SIZE + grid_size); j++){
             int last_idx = my_rule.get(j - RULE_SIZE).size() - 1;
             for(int i = RULE_SIZE - 1; i >= 0; i--){

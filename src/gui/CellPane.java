@@ -47,10 +47,14 @@ public class CellPane extends Pane {
     }
 
     private void handleOnClick(){
-        GameSystem.getInstance().toggleState(row,col);
-        fetchPaneImageState();
-        if(GameSystem.getInstance().isFinish())
-            System.out.println("Finish map!");
+        if (!GameSystem.getInstance().isFinish()) {
+            GameSystem.getInstance().step();
+            ControlPane.getInstance().step();
+            GameSystem.getInstance().toggleState(row, col);
+            fetchPaneImageState();
+            if (GameSystem.getInstance().isFinish())
+                ControlPane.getInstance().onComplete();
+        }
     }
 
     private static Image scale(Image source, int targetWidth, int targetHeight, boolean preserveRatio) {

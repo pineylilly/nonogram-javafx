@@ -1,7 +1,6 @@
 package logic;
 
 
-import com.sun.javafx.scene.shape.ArcHelper;
 import io.MapParser;
 
 import java.io.File;
@@ -14,14 +13,18 @@ import java.util.Random;
 public class GameSystem {
     private static GameSystem instance;
     private List<String> map_paths;
-    private List<List<Integer>> current_gamerule;
+    private List<List<Integer>> current_rule;
     private String current_path;
+
     private int map_size; // size of map is map_size x map_size
     private List<Boolean> game_state;
     private List<List<Boolean>> mark_state;
     private static final String PATH_DIR = "res/map/";
 
+    private int step;
+
     public GameSystem(){
+        step = 0;
         try {
             this.map_paths = getMap();
         } catch (FileNotFoundException e){
@@ -38,8 +41,8 @@ public class GameSystem {
         return instance;
     }
 
-    public List<List<Integer>> getCurrent_gamerule() {
-        return current_gamerule;
+    public List<List<Integer>> getCurrent_rule() {
+        return current_rule;
     }
 
     public boolean loadMap(){
@@ -62,8 +65,8 @@ public class GameSystem {
             return false;
         }
         this.map_size = res.size() / 2;
-
-        this.current_gamerule = res;
+        this.step = 0;
+        this.current_rule = res;
         this.game_state = new ArrayList<>(Collections.nCopies(res.size(),false));
         initMarkState();
         return true;
@@ -82,6 +85,18 @@ public class GameSystem {
                 paths.add(PATH_DIR + f.getName());
         return paths;
 
+    }
+    public void step(){
+        step += 1;
+    }
+    public int getStep(){
+        return step;
+    }
+
+    public String getMapName(){
+        if (current_path == null || current_path.isBlank()) return "No map is loaded";
+        String[] map_finder =  current_path.strip().split("/");
+        return map_finder[map_finder.length - 1].replaceFirst("\\..*","");
     }
 
     public String getCurrent_path() {
@@ -157,12 +172,12 @@ public class GameSystem {
     public void update_state(int row,int col){
         List<Integer> count_col = countCol(col);
         List<Integer> count_row = countRow(row);
-        if (count_col.equals(current_gamerule.get(col))){
+        if (count_col.equals(current_rule.get(col))){
             game_state.set(col,true);
         } else {
             game_state.set(col,false);
         }
-        if (count_row.equals(current_gamerule.get(map_size + row))){
+        if (count_row.equals(current_rule.get(map_size + row))){
             game_state.set(map_size+row,true);
         } else {
             game_state.set(map_size+row,false);

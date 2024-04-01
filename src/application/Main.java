@@ -1,5 +1,6 @@
 package application;
 
+import gui.ControlPane;
 import gui.GamePane;
 import io.MapParser;
 import javafx.application.Application;
@@ -17,19 +18,19 @@ import java.util.Scanner;
 
 public class Main extends Application{
 
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage)  {
         HBox root = new HBox();
         root.setPadding(new Insets(10));
 
         root.setPrefHeight(600);
         root.setPrefWidth(1000);
 
-        GameSystem mygame = GameSystem.getInstance();
-        mygame.loadMap();
-        GamePane gamepane = new GamePane();
-        root.getChildren().add(gamepane);
-        System.out.println(mygame.getCurrent_path());
+        GamePane gamepane = GamePane.getInstance();
+        ControlPane controlPane = ControlPane.getInstance();
+        root.getChildren().addAll(gamepane,controlPane);
+        System.out.println(GameSystem.getInstance().getMapName());
         Scene scene = new Scene(root);
 
 
