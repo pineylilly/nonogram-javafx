@@ -20,7 +20,7 @@ public class MapSearchPane extends VBox {
     private static MapSearchPane instance;
     public MapSearchPane(){
         this.setAlignment(Pos.TOP_CENTER);
-        this.setSpacing(20);
+        this.setSpacing(30);
         mapPath = "";
         addSelectedMapText();
         addConfirmBtn();
@@ -41,7 +41,7 @@ public class MapSearchPane extends VBox {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                ControlPane.getInstance().loadSelectedMapHandle(mapPath);
+                GameSystem.getInstance().newGame(mapPath);
             }
         });
         this.getChildren().add(btn);

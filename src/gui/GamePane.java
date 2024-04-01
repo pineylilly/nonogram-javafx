@@ -27,6 +27,7 @@ public class GamePane extends GridPane {
 
     public void newGame(){
         this.getChildren().clear();
+
         this.setPrefWidth(GAME_SIZE);
         this.setPrefHeight(GAME_SIZE);
         setGrid_size(GameSystem.getInstance().getMap_size());

@@ -1,8 +1,11 @@
 package logic;
 
 
+import gui.ControlPane;
+import gui.GamePane;
 import io.MapParser;
 
+import javax.sound.sampled.Control;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -195,6 +198,29 @@ public class GameSystem {
 
     public int getMap_size(){
         return this.map_size;
+    }
+
+
+
+    public void newGame(){
+        if (loadMap()){
+            GamePane.getInstance().newGame();
+            ControlPane.getInstance().newGame();
+        } else {
+            GamePane.getInstance().getChildren().clear();
+            ControlPane.getInstance().onFailed();
+        }
+    }
+
+    public void newGame(String map_path){
+        if (loadMap(map_path)){
+            GamePane.getInstance().newGame();
+            ControlPane.getInstance().newGame();
+        } else {
+            GamePane.getInstance().getChildren().clear();
+            ControlPane.getInstance().onFailed();
+        }
+
     }
 
     public void print_win_state(){

@@ -68,7 +68,7 @@ public class ControlPane extends VBox {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                randomGameHandle();
+                GameSystem.getInstance().newGame();
             }
         });
         this.getChildren().add(btn);
@@ -78,21 +78,20 @@ public class ControlPane extends VBox {
         stepGame.setText("Current Step is " + GameSystem.getInstance().getStep());
     }
 
-    private void randomGameHandle(){
+
+
+    public void newGame(){
         finishMessage.setVisible(false);
         stepGame.setText("Current Step is 0");
-        GameSystem.getInstance().loadMap();
-        GamePane.getInstance().newGame();
         mapNameMessage.setText("Current Map is " + GameSystem.getInstance().getMapName());
     }
 
-    public void loadSelectedMapHandle(String map_path){
+    public void onFailed(){
         finishMessage.setVisible(false);
         stepGame.setText("Current Step is 0");
-        GameSystem.getInstance().loadMap(map_path);
-        GamePane.getInstance().newGame();
-        mapNameMessage.setText("Current Map is " + GameSystem.getInstance().getMapName());
+        mapNameMessage.setText("Current Map is None");
     }
+
 
     public static ControlPane getInstance() {
         if (instance == null){
