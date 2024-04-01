@@ -30,7 +30,7 @@ public class ControlPane extends VBox {
         addMapNameMessage();
         addStepMessage();
         addNewGameBtn();
-
+        this.getChildren().add(MapSearchPane.getInstance());
     }
 
 
@@ -42,6 +42,7 @@ public class ControlPane extends VBox {
         finishMessage = text;
         this.getChildren().add(finishMessage);
     }
+
 
     private void addStepMessage(){
         Text text = new Text("Current Step is 0");
@@ -83,7 +84,14 @@ public class ControlPane extends VBox {
         GameSystem.getInstance().loadMap();
         GamePane.getInstance().newGame();
         mapNameMessage.setText("Current Map is " + GameSystem.getInstance().getMapName());
+    }
 
+    public void loadSelectedMapHandle(String map_path){
+        finishMessage.setVisible(false);
+        stepGame.setText("Current Step is 0");
+        GameSystem.getInstance().loadMap(map_path);
+        GamePane.getInstance().newGame();
+        mapNameMessage.setText("Current Map is " + GameSystem.getInstance().getMapName());
     }
 
     public static ControlPane getInstance() {

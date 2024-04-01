@@ -12,6 +12,11 @@ import java.util.Random;
 
 public class GameSystem {
     private static GameSystem instance;
+
+    public List<String> getMap_paths() {
+        return map_paths;
+    }
+
     private List<String> map_paths;
     private List<List<Integer>> current_rule;
     private String current_path;
