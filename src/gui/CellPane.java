@@ -21,6 +21,7 @@ public class CellPane extends Pane {
         super();
         this.setPrefHeight(height);
         this.setPrefWidth(width);
+        this.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,null,new BorderWidths(2))));
         setRow(row);
         setCol(col);
         setCellImage();
@@ -32,19 +33,14 @@ public class CellPane extends Pane {
         });
     }
 
-    private int getMarkState(){
-        return GameSystem.getInstance().getMarkState(row, col);
-    }
-
     private void setCellImage(){
-        if (getMarkState() == 0){
+        if (getCellState() == 0){
             this.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        } else if (getMarkState() == 1) {
+        } else if (getCellState() == 1) {
             this.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, null, null)));
         } else {
-            this.setBackground(new Background(new BackgroundImage(X_MARK_IMG,null,null,null,new BackgroundSize(this.getWidth(), this.getHeight(), false, false, false, false))));
+            this.setBackground(new Background(new BackgroundImage(X_MARK_IMG, null, null, null, new BackgroundSize(this.getWidth(), this.getHeight(), false, false, false, false))));
         }
-        this.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,null,new BorderWidths(2))));
     }
 
     private void handleOnClick(MouseEvent mouseEvent){
@@ -54,10 +50,9 @@ public class CellPane extends Pane {
             }
 
             GameSystem.getInstance().step();
-            ControlPane.getInstance().step();
 
             if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                if (getMarkState() == 1) {
+                if (getCellState() == 1) {
                     GameSystem.getInstance().setCellState(row, col, 0);
                 }
                 else {
@@ -65,7 +60,7 @@ public class CellPane extends Pane {
                 }
             }
             else if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-                if (getMarkState() == 2) {
+                if (getCellState() == 2) {
                     GameSystem.getInstance().setCellState(row, col, 0);
                 }
                 else {
@@ -75,6 +70,10 @@ public class CellPane extends Pane {
 
             setCellImage();
         }
+    }
+
+    private int getCellState(){
+        return GameSystem.getInstance().getCellState(row, col);
     }
 
     public void setCol(int col) {

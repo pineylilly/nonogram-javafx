@@ -7,10 +7,11 @@ public class GamePane extends GridPane {
 
     private static final int GAME_SIZE = 620;
     private static final int RULE_SIZE = 4;
+
+    private static GamePane instance;
     private int gridSize;
     private double paneSize;
 
-    private static GamePane instance;
     private GamePane() {
         super();
         this.setPrefWidth(GAME_SIZE);
@@ -37,14 +38,6 @@ public class GamePane extends GridPane {
         initCellPane();
     }
 
-    public int getGridSize() {
-        return gridSize;
-    }
-
-    public void setGridSize(int grid_size) {
-        this.gridSize = grid_size;
-    }
-
     private void initEmptyPane(){
         for(int i = 0; i < RULE_SIZE; ++i){
             for(int j = 0; j < RULE_SIZE; ++j){
@@ -52,8 +45,6 @@ public class GamePane extends GridPane {
             }
         }
     }
-
-
 
     private void initRulePane(){
         List<List<Integer>> my_rule = GameSystem.getInstance().getCurrentRule();
@@ -83,12 +74,17 @@ public class GamePane extends GridPane {
             }
         }
     }
+
     private void initCellPane(){
         for(int i = 0; i < gridSize; ++i){
             for(int j =0; j < gridSize; ++j){
                 this.add(new CellPane(paneSize,paneSize,i ,j),j+RULE_SIZE,i + RULE_SIZE);
             }
         }
+    }
+
+    public void setGridSize(int gridSize) {
+        this.gridSize = gridSize;
     }
 
 }

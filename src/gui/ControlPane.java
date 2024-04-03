@@ -3,6 +3,7 @@ package gui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -16,82 +17,63 @@ public class ControlPane extends VBox {
 
     private static ControlPane instance;
 
-    private Text finishMessage;
-    private Text stepGame;
+    private Text finishText;
+    private Text stepText;
+    private Text mapNameText;
 
-    private Text mapNameMessage;
     private ControlPane() {
         super();
         this.setPrefWidth(400);
         this.setPrefHeight(600);
         this.setAlignment(Pos.TOP_CENTER);
         this.setSpacing(30);
-        addFinishMessage();
-        addMapNameMessage();
-        addStepMessage();
-        addNewGameBtn();
-        this.getChildren().add(MapSearchPane.getInstance());
+        this.setPadding(new Insets(10, 0, 10, 0));
+        setupFinishMessage();
+        setupMapNameMessage();
+        setupStepMessage();
+
+        this.getChildren().addAll(finishText, stepText, mapNameText, MapSearchPane.getInstance());
     }
 
-
-    private void addFinishMessage(){
-        Text text = new Text("Map is finished");
+    private void setupFinishMessage(){
+        Text text = new Text("Congratulation! The map is finished!");
         text.setFont(Font.font("Tohama",FontWeight.BOLD,16));
         text.setFill(Color.RED);
         text.setVisible(false);
-        finishMessage = text;
-        this.getChildren().add(finishMessage);
+        this.finishText = text;
     }
 
-
-    private void addStepMessage(){
-        Text text = new Text("Current Step is 0");
+    private void setupStepMessage(){
+        Text text = new Text("You used 0 step(s)");
         text.setFont(Font.font("Tohama",FontWeight.BOLD,16));
-        stepGame = text;
-        this.getChildren().add(stepGame);
+        this.stepText = text;
     }
 
-    private void addMapNameMessage(){
-        Text text = new Text("Current Map is " + GameSystem.getInstance().getMapName());
+    private void setupMapNameMessage(){
+        Text text = new Text("Please select a map");
         text.setFont(Font.font("Tohama",FontWeight.BOLD,16));
-        mapNameMessage = text;
-        this.getChildren().add(mapNameMessage);
-    }
-
-    public void onComplete(){
-        finishMessage.setVisible(true);
-    }
-    private void addNewGameBtn(){
-        Button btn = new Button("New game [Random]");
-        btn.setFont(Font.font("Tahoma", FontWeight.BOLD,16));
-
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                GameSystem.getInstance().newGame();
-            }
-        });
-        this.getChildren().add(btn);
+        this.mapNameText = text;
     }
 
     public void step(){
-        stepGame.setText("Current Step is " + GameSystem.getInstance().getStep());
+        stepText.setText("You used " + GameSystem.getInstance().getStep() + " step(s)");
     }
 
+    public void resetText(){
+        finishText.setVisible(false);
+        stepText.setText("You used 0 step(s)");
+        mapNameText.setText("Current Map: " + GameSystem.getInstance().getMapName());
+    }
 
-
-    public void newGame(){
-        finishMessage.setVisible(false);
-        stepGame.setText("Current Step is 0");
-        mapNameMessage.setText("Current Map is " + GameSystem.getInstance().getMapName());
+    public void onComplete(){
+        finishText.setVisible(true);
     }
 
     public void onFailed(){
-        finishMessage.setVisible(false);
-        stepGame.setText("Current Step is 0");
-        mapNameMessage.setText("Current Map is None");
+        finishText.setVisible(false);
+        stepText.setText("You used 0 step(s)");
+        mapNameText.setText("Please select a map");
     }
-
 
     public static ControlPane getInstance() {
         if (instance == null){

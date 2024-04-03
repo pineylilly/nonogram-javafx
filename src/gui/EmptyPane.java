@@ -10,8 +10,10 @@ public class EmptyPane extends StackPane {
         super();
         setPrefWidth(width);
         setPrefHeight(height);
-        if (useBorder)
+
+        if (useBorder) {
             this.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,null,new BorderWidths(2))));
+        }
 
     }
 }

@@ -9,9 +9,6 @@ import java.util.Scanner;
 
 public class MapParser {
     private String filename;
-    public MapParser(){
-
-    }
 
     public MapParser(String filename){
         setFilename(filename);

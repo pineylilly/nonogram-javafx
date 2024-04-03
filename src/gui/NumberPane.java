@@ -13,6 +13,5 @@ public class NumberPane extends EmptyPane{
         Text text = new Text(number+ "");
         text.setFont(Font.font("Tahoma", FontWeight.BOLD,width / 2));
         this.getChildren().add(text);
-
     }
 }
