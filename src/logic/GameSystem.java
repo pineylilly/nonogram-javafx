@@ -15,18 +15,13 @@ import java.util.Random;
 
 public class GameSystem {
     private static GameSystem instance;
+    private List<String> mapPaths;
+    private List<List<Integer>> currentRule;
+    private String currentPath;
 
-    public List<String> getMap_paths() {
-        return map_paths;
-    }
-
-    private List<String> map_paths;
-    private List<List<Integer>> current_rule;
-    private String current_path;
-
-    private int map_size; // size of map is map_size x map_size
-    private List<Boolean> game_state;
-    private List<List<Boolean>> mark_state;
+    private int mapSize; // size of map is mapSize x mapSize
+    private List<Boolean> gameState;
+    private List<List<Integer>> markState;      // 0 = white, 1 = selected, 2 = cross
     private static final String PATH_DIR = "res/map/";
 
     private int step;
@@ -34,9 +29,9 @@ public class GameSystem {
     public GameSystem(){
         step = 0;
         try {
-            this.map_paths = getMap();
+            this.mapPaths = getMap();
         } catch (FileNotFoundException e){
-            this.map_paths = null;
+            this.mapPaths = null;
             System.out.println("Map game directory is not found so that map paths is null, you should add path in working directory");
         }
 
@@ -49,19 +44,19 @@ public class GameSystem {
         return instance;
     }
 
-    public List<List<Integer>> getCurrent_rule() {
-        return current_rule;
+    public List<List<Integer>> getCurrentRule() {
+        return currentRule;
     }
 
     public boolean loadMap(){
         Random dice = new Random();
-        return loadMap(map_paths.get(dice.nextInt(map_paths.size())));
+        return loadMap(mapPaths.get(dice.nextInt(mapPaths.size())));
     }
 
     public boolean loadMap(String path){
         //System.out.println(path);
-        this.current_path = path;
-        if (!map_paths.contains(path)) {
+        this.currentPath = path;
+        if (!mapPaths.contains(path)) {
 
             System.out.println("Load Map failed because invalid path");
             return false;
@@ -72,10 +67,10 @@ public class GameSystem {
             System.out.println("Load Map failed file not found or use odd line number");
             return false;
         }
-        this.map_size = res.size() / 2;
+        this.mapSize = res.size() / 2;
         this.step = 0;
-        this.current_rule = res;
-        this.game_state = new ArrayList<>(Collections.nCopies(res.size(),false));
+        this.currentRule = res;
+        this.gameState = new ArrayList<>(Collections.nCopies(res.size(),false));
         initMarkState();
         return true;
     }
@@ -102,17 +97,17 @@ public class GameSystem {
     }
 
     public String getMapName(){
-        if (current_path == null || current_path.isBlank()) return "No map is loaded";
-        String[] map_finder =  current_path.strip().split("/");
+        if (currentPath == null || currentPath.isBlank()) return "No map is loaded";
+        String[] map_finder =  currentPath.strip().split("/");
         return map_finder[map_finder.length - 1].replaceFirst("\\..*","");
     }
 
     public String getCurrent_path() {
-        return current_path;
+        return currentPath;
     }
 
     public boolean isFinish(){
-        for (boolean success_Line : game_state){
+        for (boolean success_Line : gameState){
             if (!success_Line)
                 return false;
         }
@@ -120,31 +115,27 @@ public class GameSystem {
     }
 
     private void initMarkState(){
-        mark_state = new ArrayList<List<Boolean>>();
-        for (int i = 0; i < map_size; ++i){
-            mark_state.add(new ArrayList<Boolean> ());
-            for (int j = 0; j < map_size; ++j){
-                mark_state.get(i).add(true);
+        markState = new ArrayList<List<Integer>>();
+        for (int i = 0; i < mapSize; ++i){
+            markState.add(new ArrayList<Integer>());
+            for (int j = 0; j < mapSize; ++j){
+                markState.get(i).add(0);
             }
         }
     }
 
-    public boolean toggleState(int row,int col){
-        if (row < map_size && col < map_size){
-            boolean state = mark_state.get(row).get(col);
-            mark_state.get(row).set(col,!state);
-            update_state(row,col);
-            return true;
-        } else {
-            return false;
+    public void setCellState(int row, int col, int state) {
+        if (row < mapSize && col < mapSize){
+            markState.get(row).set(col, state);
+            updateState(row, col);
         }
     }
 
     private List<Integer> countRow(int row){
         int count = 0;
         ArrayList<Integer> result = new ArrayList<Integer>();
-        for (int col = 0; col < map_size; ++col){
-            if (mark_state.get(row).get(col)){
+        for (int col = 0; col < mapSize; ++col){
+            if (markState.get(row).get(col) == 1){
                 count++;
             } else {
                 if (count != 0)
@@ -162,8 +153,8 @@ public class GameSystem {
     private List<Integer> countCol(int col){
         int count = 0;
         ArrayList<Integer> result = new ArrayList<Integer>();
-        for (int row = 0; row < map_size; ++row){
-            if (mark_state.get(row).get(col)){
+        for (int row = 0; row < mapSize; ++row){
+            if (markState.get(row).get(col) == 1){
                 count++;
             } else {
                 if (count != 0)
@@ -177,27 +168,30 @@ public class GameSystem {
         }
         return result;
     }
-    public void update_state(int row,int col){
+    public void updateState(int row,int col){
         List<Integer> count_col = countCol(col);
         List<Integer> count_row = countRow(row);
-        if (count_col.equals(current_rule.get(col))){
-            game_state.set(col,true);
+        if (count_col.equals(currentRule.get(col))){
+            gameState.set(col,true);
         } else {
-            game_state.set(col,false);
+            gameState.set(col,false);
         }
-        if (count_row.equals(current_rule.get(map_size + row))){
-            game_state.set(map_size+row,true);
+        if (count_row.equals(currentRule.get(mapSize + row))){
+            gameState.set(mapSize+row,true);
         } else {
-            game_state.set(map_size+row,false);
+            gameState.set(mapSize+row,false);
         }
+
+        if (GameSystem.getInstance().isFinish())
+            ControlPane.getInstance().onComplete();
     }
 
-    public boolean getMarkState(int row,int col){
-        return mark_state.get(row).get(col);
+    public int getMarkState(int row,int col){
+        return markState.get(row).get(col);
     }
 
-    public int getMap_size(){
-        return this.map_size;
+    public int getMapSize(){
+        return this.mapSize;
     }
 
 
@@ -223,31 +217,35 @@ public class GameSystem {
 
     }
 
-    public void print_win_state(){
-        System.out.println("--------------------win state-------------------------");
-        for (boolean e : game_state){
-            if(e)
-                System.out.print("C ");
-            else
-                System.out.print("X ");
-        }
-        System.out.println();
-        System.out.println("--------------------win state-------------------------");
+    public List<String> getMapPaths() {
+        return mapPaths;
     }
 
-    public void print_state(){
-        for (int i = 0; i < map_size; ++i){
-            for (int j = 0; j < map_size; ++j){
-                if (mark_state.get(i).get(j)){
-                    System.out.print("O ");
-                } else {
-                    System.out.print("X ");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println("----------------------------------------------------");
-    }
+//    public void print_win_state(){
+//        System.out.println("--------------------win state-------------------------");
+//        for (boolean e : gameState){
+//            if(e)
+//                System.out.print("C ");
+//            else
+//                System.out.print("X ");
+//        }
+//        System.out.println();
+//        System.out.println("--------------------win state-------------------------");
+//    }
+
+//    public void print_state(){
+//        for (int i = 0; i < mapSize; ++i){
+//            for (int j = 0; j < mapSize; ++j){
+//                if (markState.get(i).get(j)){
+//                    System.out.print("O ");
+//                } else {
+//                    System.out.print("X ");
+//                }
+//            }
+//            System.out.println();
+//        }
+//        System.out.println("----------------------------------------------------");
+//    }
 
 }
 

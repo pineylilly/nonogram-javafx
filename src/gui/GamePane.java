@@ -5,10 +5,10 @@ import logic.GameSystem;
 import java.util.List;
 public class GamePane extends GridPane {
 
-    private int grid_size;
     private static final int GAME_SIZE = 620;
     private static final int RULE_SIZE = 4;
-    private double pane_size;
+    private int gridSize;
+    private double paneSize;
 
     private static GamePane instance;
     private GamePane() {
@@ -30,26 +30,25 @@ public class GamePane extends GridPane {
 
         this.setPrefWidth(GAME_SIZE);
         this.setPrefHeight(GAME_SIZE);
-        setGrid_size(GameSystem.getInstance().getMap_size());
-        pane_size = GAME_SIZE / ((grid_size +RULE_SIZE) * 1.0);
-        CellPane.scale_static_image((int) (pane_size),(int) (pane_size));
+        setGridSize(GameSystem.getInstance().getMapSize());
+        paneSize = GAME_SIZE / ((gridSize + RULE_SIZE) * 1.0);
         initEmptyPane();
         initRulePane();
         initCellPane();
     }
 
-    public int getGrid_size() {
-        return grid_size;
+    public int getGridSize() {
+        return gridSize;
     }
 
-    public void setGrid_size(int grid_size) {
-        this.grid_size = grid_size;
+    public void setGridSize(int grid_size) {
+        this.gridSize = grid_size;
     }
 
     private void initEmptyPane(){
         for(int i = 0; i < RULE_SIZE; ++i){
             for(int j = 0; j < RULE_SIZE; ++j){
-                this.add(new EmptyPane(pane_size,pane_size,false),j,i);
+                this.add(new EmptyPane(paneSize,paneSize,false),j,i);
             }
         }
     }
@@ -57,37 +56,37 @@ public class GamePane extends GridPane {
 
 
     private void initRulePane(){
-        List<List<Integer>> my_rule = GameSystem.getInstance().getCurrent_rule();
-        for (int j = RULE_SIZE; j < (RULE_SIZE + grid_size); j++){
+        List<List<Integer>> my_rule = GameSystem.getInstance().getCurrentRule();
+        for (int j = RULE_SIZE; j < (RULE_SIZE + gridSize); j++){
             int last_idx = my_rule.get(j - RULE_SIZE).size() - 1;
             for(int i = RULE_SIZE - 1; i >= 0; i--){
                 if (last_idx < 0) {
-                    this.add(new EmptyPane(pane_size,pane_size,true),j,i);
+                    this.add(new EmptyPane(paneSize,paneSize,true),j,i);
                 } else {
                     int rule_number = my_rule.get(j-RULE_SIZE).get(last_idx);
-                    this.add(new NumberPane(pane_size,pane_size,rule_number),j,i);
+                    this.add(new NumberPane(paneSize,paneSize,rule_number),j,i);
                     last_idx--;
                 }
             }
         }
 
-        for (int i = RULE_SIZE; i < RULE_SIZE + grid_size; i++){
-            int last_idx = my_rule.get(i - RULE_SIZE + grid_size).size() - 1;
+        for (int i = RULE_SIZE; i < RULE_SIZE + gridSize; i++){
+            int last_idx = my_rule.get(i - RULE_SIZE + gridSize).size() - 1;
             for(int j = RULE_SIZE - 1; j >= 0; j--){
                 if (last_idx < 0){
-                    this.add(new EmptyPane(pane_size,pane_size,true),j,i);
+                    this.add(new EmptyPane(paneSize,paneSize,true),j,i);
                 } else {
-                    int rule_number = my_rule.get(i - RULE_SIZE + grid_size).get(last_idx);
-                    this.add(new NumberPane(pane_size,pane_size,rule_number),j,i);
+                    int rule_number = my_rule.get(i - RULE_SIZE + gridSize).get(last_idx);
+                    this.add(new NumberPane(paneSize,paneSize,rule_number),j,i);
                     last_idx--;
                 }
             }
         }
     }
     private void initCellPane(){
-        for(int i = 0; i < grid_size; ++i){
-            for(int j =0; j < grid_size; ++j){
-                this.add(new CellPane(pane_size,pane_size,i ,j),j+RULE_SIZE,i + RULE_SIZE);
+        for(int i = 0; i < gridSize; ++i){
+            for(int j =0; j < gridSize; ++j){
+                this.add(new CellPane(paneSize,paneSize,i ,j),j+RULE_SIZE,i + RULE_SIZE);
             }
         }
     }

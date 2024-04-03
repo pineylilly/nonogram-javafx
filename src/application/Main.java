@@ -33,16 +33,11 @@ public class Main extends Application{
         System.out.println(GameSystem.getInstance().getMapName());
         Scene scene = new Scene(root);
 
-
         primaryStage.setScene(scene);
         primaryStage.setTitle("Nonogram");
         primaryStage.getIcons().add(new Image("file:res/images/icon.png"));
         primaryStage.setResizable(false);
         primaryStage.show();
-
-
-
-
 
     }
 

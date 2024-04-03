@@ -49,7 +49,7 @@ public class MapSearchPane extends VBox {
 
     private void addMapSelector(){
         mapSelector = new ComboBox<String>();
-        mapSelector.getItems().addAll(GameSystem.getInstance().getMap_paths());
+        mapSelector.getItems().addAll(GameSystem.getInstance().getMapPaths());
         mapSelector.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
