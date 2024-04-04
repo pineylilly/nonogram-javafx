@@ -21,7 +21,7 @@ public class CellPane extends Pane {
         super();
         this.setPrefHeight(height);
         this.setPrefWidth(width);
-        this.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,null,new BorderWidths(2))));
+        this.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,null,new BorderWidths(1))));
         setRow(row);
         setCol(col);
         setCellImage();

@@ -5,7 +5,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -33,6 +33,10 @@ public class MapSearchPane extends VBox {
         Button btn = new Button("Reset");
         btn.setFont(Font.font("Tohama", FontWeight.BOLD,16));
         btn.setPrefWidth(150);
+        btn.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE, null, null)));
+        btn.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,new CornerRadii(10),new BorderWidths(1))));
+        btn.setOnMouseEntered(e -> btn.setBackground(new Background(new BackgroundFill(Color.BISQUE, null, null))));
+        btn.setOnMouseExited(e -> btn.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE, null, null))));
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -46,6 +50,10 @@ public class MapSearchPane extends VBox {
         Button btn = new Button("Random Map");
         btn.setFont(Font.font("Tohama", FontWeight.BOLD,16));
         btn.setPrefWidth(150);
+        btn.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE, null, null)));
+        btn.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,new CornerRadii(10),new BorderWidths(1))));
+        btn.setOnMouseEntered(e -> btn.setBackground(new Background(new BackgroundFill(Color.BISQUE, null, null))));
+        btn.setOnMouseExited(e -> btn.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE, null, null))));
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -59,6 +67,10 @@ public class MapSearchPane extends VBox {
         mapSelector = new ComboBox<String>();
         mapSelector.getItems().addAll(GameSystem.getInstance().getMapPaths());
         mapSelector.setPrefWidth(150);
+        mapSelector.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE, null, null)));
+        mapSelector.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,new CornerRadii(10),new BorderWidths(1))));
+        mapSelector.setOnMouseEntered(e -> mapSelector.setBackground(new Background(new BackgroundFill(Color.BISQUE, null, null))));
+        mapSelector.setOnMouseExited(e -> mapSelector.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE, null, null))));
         mapSelector.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

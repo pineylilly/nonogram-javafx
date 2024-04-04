@@ -12,7 +12,8 @@ public class EmptyPane extends StackPane {
         setPrefHeight(height);
 
         if (useBorder) {
-            this.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,null,new BorderWidths(2))));
+            this.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,null,new BorderWidths(1))));
+            this.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         }
 
     }
