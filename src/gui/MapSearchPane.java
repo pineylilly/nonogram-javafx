@@ -20,6 +20,7 @@ public class MapSearchPane extends VBox {
     private String mapPath = "";
 
     public MapSearchPane(){
+        // TODO: Initialize MapSearchPane's constructor
         this.setAlignment(Pos.TOP_CENTER);
         this.setSpacing(30);
         setupResetButton();

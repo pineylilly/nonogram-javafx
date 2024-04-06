@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GameSystem {
-    private static final String PATH_DIR = "res/map/";
+    private static final String PATH_DIR = "map/";
     private static GameSystem instance;
     private List<String> mapPaths;
     private List<List<Integer>> currentRule;
@@ -23,7 +23,7 @@ public class GameSystem {
 
     private int mapSize; // size of map is mapSize x mapSize
     private List<Boolean> ruleStates;
-    private List<List<Integer>> cellStates;      // 0 = white, 1 = filled, 2 = crossed
+    private List<List<Integer>> cellStates;      // 0 = blank, 1 = filled, 2 = marked (X)
 
     private int step;
 
@@ -70,14 +70,20 @@ public class GameSystem {
 
     private List<String> getMap() throws FileNotFoundException {
         ArrayList<String> paths = new ArrayList<String>();
-        File dir = new File(PATH_DIR);
-        File[] listOfFile = dir.listFiles();
-        if (listOfFile == null){
-            throw new FileNotFoundException();
+//        File dir = new File(ClassLoader.getSystemResource(PATH_DIR).getPath());
+//        System.out.println(dir.isDirectory());
+//        File[] listOfFile = dir.listFiles();
+//        if (listOfFile == null){
+//            throw new FileNotFoundException();
+//        }
+//        for (File f : listOfFile)
+//            if (f.isFile())
+//                paths.add(PATH_DIR + f.getName());
+//        return paths;
+        String[] filenames = new String[] {"easy01.txt", "easy02.txt", "easy03.txt", "easy04.txt", "easy05.txt", "hard01.txt", "hard02.txt", "hard03.txt", "hard04.txt", "hard05.txt", "heart.txt", "never_gonna_give_you_up.txt"};
+        for (String s : filenames) {
+            paths.add(PATH_DIR + s);
         }
-        for (File f : listOfFile)
-            if (f.isFile())
-                paths.add(PATH_DIR + f.getName());
         return paths;
 
     }
@@ -173,8 +179,8 @@ public class GameSystem {
         }
     }
 
-    public void newGame(String map_path){
-        if (loadMap(map_path)){
+    public void newGame(String mapPath){
+        if (loadMap(mapPath)){
             GamePane.getInstance().newGame();
             ControlPane.getInstance().resetText();
         } else {

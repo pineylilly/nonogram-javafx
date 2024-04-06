@@ -1,10 +1,9 @@
 package io;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.io.File;
 import java.util.Scanner;
 
 public class MapParser {
@@ -16,12 +15,15 @@ public class MapParser {
 
     public List<List<Integer>> read(){
         List<List<Integer>> result = new ArrayList<List<Integer>>();
-        File obj = new File(filename);
+//        File obj = new File(ClassLoader.getSystemResource(filename).getPath());
+        InputStream is = ClassLoader.getSystemResourceAsStream(filename);
+        BufferedReader s = new BufferedReader(new InputStreamReader(is));
         try {
-            Scanner reader = new Scanner(obj);
+//            Scanner reader = new Scanner(obj);
+
             int idx = 0;
-            while (reader.hasNextLine()){
-                String line = reader.nextLine();
+            String line;
+            while ((line = s.readLine()) != null){
                 if (line.isBlank()) continue;
                 result.add(new ArrayList<Integer>());
 
@@ -31,7 +33,7 @@ public class MapParser {
                 idx++;
             }
             return result;
-        } catch (FileNotFoundException e){
+        } catch (IOException e){
             System.out.println("File is not found. try to change env path or set new correct file path");
             return null;
         }

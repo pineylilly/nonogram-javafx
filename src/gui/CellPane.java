@@ -28,12 +28,14 @@ public class CellPane extends Pane {
         this.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                // TODO: Complete the handle method
                 handleOnClick(mouseEvent);
             }
         });
     }
 
     private void setCellImage(){
+        // TODO: Implement setCellImage method which will set the image of the cell
         if (getCellState() == 0){
             this.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         } else if (getCellState() == 1) {
@@ -44,6 +46,7 @@ public class CellPane extends Pane {
     }
 
     private void handleOnClick(MouseEvent mouseEvent){
+        // TODO: Implement handleOnClick method which will be called when the cell is clicked
         if (!GameSystem.getInstance().isFinish()) {
             if (!mouseEvent.getButton().equals(MouseButton.PRIMARY) && !mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
                 return;

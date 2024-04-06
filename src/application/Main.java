@@ -37,7 +37,8 @@ public class Main extends Application{
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Nonogram");
-        primaryStage.getIcons().add(new Image("file:res/images/icon.png"));
+        primaryStage.getIcons().add(new Image(ClassLoader.getSystemResource("images/icon.png").toString()));
+//        primaryStage.getIcons().add(new Image("file:res/images/icon.png"));
         primaryStage.setResizable(false);
         primaryStage.show();
 
